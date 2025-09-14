@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net472</TargetFramework>
+        <AssemblyName>DSP_AP</AssemblyName>
+        <Description>Archipelago client mod for Dyson Sphere Program.</Description>
+        <Version>0.0.1</Version>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <LangVersion>latest</LangVersion>
+        <!-- you may need this for getting the multiclient dll to output for .net 6 and netstandard 2.0 -->
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <RootNamespace>DSP_AP</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Archipelago.MultiClient.Net" Version="6.6.1" />
+        <PackageReference Include="Archipelago.MultiClient.Net.Analyzers" Version="1.5.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.Core" Version="5.*" />
+        <PackageReference Include="DysonSphereProgram.GameLibs" Version="0.10.33.26513-r.0" />
+        <PackageReference Include="UnityEngine.Modules" Version="2021.3.33" IncludeAssets="compile" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework.TrimEnd(`0123456789`))' == 'net'">
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    </ItemGroup>
+
+	<!-- Set this up to copy the dll an pdb to the scripts or plugin folder for debugging and testing purposes.
+	<Target Name="PostBuildCopyDllAndPdb" AfterTargets="Build">
+		<PropertyGroup>
+			<BuildOutputDir>$(OutDir)</BuildOutputDir>
+			<DllFile>$(BuildOutputDir)$(AssemblyName).dll</DllFile>
+			<PdbFile>$(BuildOutputDir)$(AssemblyName).pdb</PdbFile>
+			<DestinationDir></DestinationDir>
+		</PropertyGroup>
+
+		<MakeDir Directories="$(DestinationDir)" />
+
+		<Copy SourceFiles="$(DllFile)" DestinationFolder="$(DestinationDir)" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="$(PdbFile)" DestinationFolder="$(DestinationDir)" SkipUnchangedFiles="true" />
+	</Target>
+	!-->
+
+</Project>

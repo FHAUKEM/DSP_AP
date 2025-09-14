@@ -1,0 +1,76 @@
+﻿using BepInEx;
+using BepInEx.Logging;
+using DSP_AP.Archipelago;
+using DSP_AP.Utils;
+using HarmonyLib;
+using System.IO;
+using System.Linq;
+using UnityEngine;
+
+namespace DSP_AP
+{
+    [BepInPlugin(PluginGUID, PluginName, PluginVersion)]
+    public class Plugin : BaseUnityPlugin
+    {
+        #region Constants
+        public const string PluginGUID = "FHAUKEM.DSP.DSP_AP";
+        public const string PluginName = "DSP_AP";
+        public const string PluginVersion = "0.0.1";
+        public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
+        private const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
+        #endregion
+
+        #region Static Fields
+        public static ManualLogSource BepinLogger;
+        public static ArchipelagoClient ArchipelagoClient;
+        public static string PluginPath;
+        public static APTechShadow[] APTechProtos;
+        public static Plugin Instance;
+        #endregion
+
+
+        private void Awake()
+        {
+            BepinLogger = base.Logger;
+            PluginPath = Path.Combine(Paths.PluginPath, PluginName);
+
+            Harmony harmony = new Harmony("FHAUKEM.DSP.DSP_AP");
+            harmony.PatchAll();
+
+            ArchipelagoClient = new ArchipelagoClient();
+            ArchipelagoConsole.Awake();
+            InitializeTechsForArchipelago();
+
+            ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
+        }
+
+        private void OnGUI()
+        {
+            PluginUI.DrawModLabel();
+            PluginUI.DrawStatusUI();
+            PluginUI.DrawDebugButtons();
+        }
+
+        public void InitializeTechsForArchipelago()
+        {
+            var sourceArray = LDB.techs.dataArray;
+            APTechProtos = new APTechShadow[sourceArray.Length];
+
+            for (int i = 0; i < sourceArray.Length; i++)
+            {
+                if (sourceArray[i] != null)
+                {
+                    // Make shadow copy of relevant information
+                    var shadow = new APTechShadow(sourceArray[i]);
+                    APTechProtos[i] = shadow;
+
+                    // Remove default tech rewards
+                    sourceArray[i].UnlockRecipes = [];
+                    sourceArray[i].UnlockFunctions = [];
+                    sourceArray[i].AddItems = [];
+                }
+            }
+            BepinLogger.LogInfo($"Copied {APTechProtos.Count(x => x != null)} techs into APTechShadow array.");
+        }
+    }
+}
