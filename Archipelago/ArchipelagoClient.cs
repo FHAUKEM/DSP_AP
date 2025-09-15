@@ -3,12 +3,11 @@ using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Packets;
+using DSP_AP.Partials;
 using DSP_AP.Utils;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using UnityEngine;
 
 namespace DSP_AP.Archipelago;
 
@@ -178,7 +177,7 @@ public class ArchipelagoClient
         ServerData.ReceivedLocations.Add(receivedItem.ItemId);
         int techId = (int)receivedItem.ItemId;
         Plugin.BepinLogger.LogDebug($"Unlocking rewards for research id: {techId}");
-        APTechShadow techProto = Plugin.APTechProtos.FirstOrDefault(t => t.ID == techId);
+        TechProtoPartial techProto = Plugin.APTechProtos.FirstOrDefault(t => t.ID == techId);
 
         if (techProto != null)
         {

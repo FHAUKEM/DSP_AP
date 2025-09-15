@@ -1,11 +1,11 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
 using DSP_AP.Archipelago;
+using DSP_AP.Partials;
 using DSP_AP.Utils;
 using HarmonyLib;
 using System.IO;
 using System.Linq;
-using UnityEngine;
 
 namespace DSP_AP
 {
@@ -24,7 +24,7 @@ namespace DSP_AP
         public static ManualLogSource BepinLogger;
         public static ArchipelagoClient ArchipelagoClient;
         public static string PluginPath;
-        public static APTechShadow[] APTechProtos;
+        public static TechProtoPartial[] APTechProtos;
         public static Plugin Instance;
         #endregion
 
@@ -54,15 +54,15 @@ namespace DSP_AP
         public void InitializeTechsForArchipelago()
         {
             var sourceArray = LDB.techs.dataArray;
-            APTechProtos = new APTechShadow[sourceArray.Length];
+            APTechProtos = new TechProtoPartial[sourceArray.Length];
 
             for (int i = 0; i < sourceArray.Length; i++)
             {
                 if (sourceArray[i] != null)
                 {
-                    // Make shadow copy of relevant information
-                    var shadow = new APTechShadow(sourceArray[i]);
-                    APTechProtos[i] = shadow;
+                    // Make partial copy of relevant information
+                    var partial = new TechProtoPartial(sourceArray[i]);
+                    APTechProtos[i] = partial;
 
                     // Remove default tech rewards
                     sourceArray[i].UnlockRecipes = [];
@@ -70,7 +70,7 @@ namespace DSP_AP
                     sourceArray[i].AddItems = [];
                 }
             }
-            BepinLogger.LogInfo($"Copied {APTechProtos.Count(x => x != null)} techs into APTechShadow array.");
+            BepinLogger.LogInfo($"Copied {APTechProtos.Count(x => x != null)} techs into TechProtoPartial array.");
         }
     }
 }

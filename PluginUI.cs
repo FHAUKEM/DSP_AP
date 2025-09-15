@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using DSP_AP.Archipelago;
+using DSP_AP.Partials;
 using DSP_AP.Utils;
 using UnityEngine;
 
@@ -82,7 +83,7 @@ namespace DSP_AP
                     buttonWidth, buttonHeight),
                     "Dump techs"))
             {
-                APTechProto.DumpAPTechs();
+                TechProtoPartial.DumpAPTechs();
             }
 
             if (GUI.Button(new Rect(
@@ -91,7 +92,7 @@ namespace DSP_AP
                     buttonWidth, buttonHeight),
                     "Dump recipes"))
             {
-                APTechProto.DumpRecipes();
+                RecipeProtoPartial.DumpRecipes();
             }
         }
     }
