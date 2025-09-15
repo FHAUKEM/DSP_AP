@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using DSP_AP.Utils;
+
 
 namespace DSP_AP.Archipelago;
 
@@ -56,51 +58,12 @@ public class ArchipelagoData
         string fileName = $"{SlotName}.{seed}.json";
 
         filePath = Path.Combine(Plugin.PluginPath, saveDirectory, fileName);
-        LoadCheckedLocations();
+        CheckedLocations = ArchipelagoDataStorage.LoadFromFile(filePath);
     }
 
     public void SaveCheckedLocations()
     {
-        try
-        {
-            string json = JsonConvert.SerializeObject(CheckedLocations, Formatting.Indented);
-            Directory.CreateDirectory(Path.Combine(Plugin.PluginPath, saveDirectory));
-            File.WriteAllText(filePath, json);
-
-            Plugin.BepinLogger.LogInfo($"Created Archipelago data file: {filePath}");
-        }
-        catch (Exception ex)
-        {
-            Plugin.BepinLogger.LogError($"Failed to save checked locations: {ex.Message}");
-        }
-    }
-
-    private void LoadCheckedLocations()
-    {
-        try
-        {
-            if (File.Exists(filePath))
-            {
-                string json = File.ReadAllText(filePath);
-                var loaded = JsonConvert.DeserializeObject<List<long>>(json);
-
-                if (loaded == null) return;
-                CheckedLocations = CheckedLocations
-                    .Union(loaded) // Combines without duplicates
-                    .ToList();
-
-                Plugin.BepinLogger.LogInfo($"Loaded Archipelago data from file: {filePath}");
-            }
-            else
-            {
-                // Create the file if it doesn't exist
-                SaveCheckedLocations();
-            }
-        }
-        catch (Exception ex)
-        {
-            Plugin.BepinLogger.LogError($"Failed to load checked locations: {ex.Message}");
-        }
+        ArchipelagoDataStorage.SaveToFile(filePath, CheckedLocations);
     }
 
     /// <summary>
