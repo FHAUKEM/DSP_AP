@@ -35,12 +35,12 @@ namespace DSP_AP
             BepinLogger = base.Logger;
             PluginPath = Path.Combine(Paths.PluginPath, PluginName);
 
-            Harmony harmony = new Harmony("FHAUKEM.DSP.DSP_AP");
+            Harmony harmony = new Harmony(PluginGUID + ".Harmony");
             harmony.PatchAll();
 
             ArchipelagoClient = new ArchipelagoClient();
             ArchipelagoConsole.Awake();
-            InitializeTechsForArchipelago();
+            APTechProtos = TechInitializationService.CreateTechProtos(BepinLogger);
 
             ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
         }
@@ -50,28 +50,6 @@ namespace DSP_AP
             PluginUI.DrawModLabel();
             PluginUI.DrawStatusUI();
             PluginUI.DrawDebugButtons();
-        }
-
-        public void InitializeTechsForArchipelago()
-        {
-            var sourceArray = LDB.techs.dataArray;
-            APTechProtos = new TechProtoPartial[sourceArray.Length];
-
-            for (int i = 0; i < sourceArray.Length; i++)
-            {
-                if (sourceArray[i] != null)
-                {
-                    // Make partial copy of relevant information
-                    var partial = new TechProtoPartial(sourceArray[i]);
-                    APTechProtos[i] = partial;
-
-                    // Remove default tech rewards
-                    sourceArray[i].UnlockRecipes = [];
-                    sourceArray[i].UnlockFunctions = [];
-                    sourceArray[i].AddItems = [];
-                }
-            }
-            BepinLogger.LogInfo($"Copied {APTechProtos.Count(x => x != null)} techs into TechProtoPartial array.");
         }
     }
 }
