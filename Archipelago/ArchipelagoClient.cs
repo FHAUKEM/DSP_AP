@@ -3,7 +3,7 @@ using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Packets;
-using DSP_AP.Partials;
+using DSP_AP.GameLogic;
 using DSP_AP.Utils;
 using System;
 using System.Linq;
@@ -141,18 +141,7 @@ public class ArchipelagoClient
         {
             session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
             ArchipelagoConsole.LogMessage($"Sent location checks to server!");
-
-            if (ServerData.CheckedLocations.Contains(1508))
-            {
-                StatusUpdatePacket goalCompletePacket = new StatusUpdatePacket
-                {
-                    Status = ArchipelagoClientState.ClientGoal
-                };
-
-                session.Socket.SendPacketAsync(goalCompletePacket);
-
-                ArchipelagoConsole.LogMessage($"Sent Goal Complete to server!");
-            }
+            GoalCheckerService.CheckForGoalCompletion(session, ServerData.CheckedLocations);
         }
         else
         {
@@ -173,40 +162,9 @@ public class ArchipelagoClient
         Plugin.BepinLogger.LogDebug("Item received with id: " + receivedItem.ItemId);
 
         ServerData.Index++;
-
         ServerData.ReceivedLocations.Add(receivedItem.ItemId);
-        int techId = (int)receivedItem.ItemId;
-        Plugin.BepinLogger.LogDebug($"Unlocking rewards for research id: {techId}");
-        TechProtoPartial techProto = Plugin.APTechProtos.FirstOrDefault(t => t.ID == techId);
 
-        if (techProto != null)
-        {
-            GameHistoryData history = GameMain.history;
-            if (!history.techStates.ContainsKey(techId))
-            {
-                Plugin.BepinLogger.LogDebug($"No techstate found for id {techId}");
-                return;
-            }
-            int maxLevel = history.techStates[techId].maxLevel;
-            for (int i = 0; i < techProto.UnlockRecipes.Length; i++)
-            {
-                history.UnlockRecipe(techProto.UnlockRecipes[i]);
-            }
-            for (int j = 0; j < techProto.UnlockFunctions.Length; j++)
-            {
-                history.UnlockTechFunction(techProto.UnlockFunctions[j], techProto.UnlockValues[j], maxLevel);
-            }
-            for (int k = 0; k < techProto.AddItems.Length; k++)
-            {
-                int itemId = techProto.AddItems[k];
-                int itemCountVal = techProto.AddItemCounts[k];
-            }
-            Plugin.BepinLogger.LogInfo($"Unlocked research rewards for tech ID: {techId}");
-        }
-        else
-        {
-            Plugin.BepinLogger.LogDebug($"Shadow TechProto not found for id {techId}");
-        }
+        TechUnlockService.ApplyTechRewards(GameMain.history, receivedItem.ItemId);
     }
 
     /// <summary>

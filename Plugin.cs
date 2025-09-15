@@ -18,6 +18,7 @@ namespace DSP_AP
         public const string PluginVersion = "0.0.1";
         public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
         private const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
+        public const long GoalTechID = 1508;
         #endregion
 
         #region Static Fields
