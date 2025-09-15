@@ -8,3 +8,6 @@ If you encounter any bugs, or anything else noteworthy, please report it in the 
 
 To install this mod, see the instructions in the corresponding setup guide, which is available [here](https://github.com/FHAUKEM/Archipelago-DSP/blob/main/worlds/dsp/docs/setup_en.md).
 For general information about the Dyson Sphere Program multiworld, see the corresponding documentation, which is available [here](https://github.com/FHAUKEM/Archipelago-DSP/blob/main/worlds/dsp/docs/en_Dyson%20Sphere%20Program.md).
+
+The icon in the Thunderstore release is a modification by FHAUKEM of the original Archipelago color icon.
+The original icon by Krista Corkos and Christopher Wilson is licensed under Attribution-NonCommercial 4.0 International.
