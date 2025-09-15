@@ -7,6 +7,7 @@ namespace DSP_AP.Partials
     [Serializable]
     public class RecipeProtoPartial
     {
+        #region Public Fields
         public int ID;
         public string Name;
         public int[] Items;
@@ -14,6 +15,7 @@ namespace DSP_AP.Partials
         public int[] Results;
         public int[] ResultCounts;
         public bool NonProductive;
+        #endregion
 
         public RecipeProtoPartial(RecipeProto proto)
         {

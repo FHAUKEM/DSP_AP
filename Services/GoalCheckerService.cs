@@ -8,8 +8,6 @@ using System.Linq;
 
 public static class GoalCheckerService
 {
-
-
     public static void CheckForGoalCompletion(ArchipelagoSession session, IEnumerable<long> checkedLocations)
     {
         if (checkedLocations.Contains(Plugin.GoalTechID))

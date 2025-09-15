@@ -7,10 +7,12 @@ namespace DSP_AP.Archipelago;
 
 public class DeathLinkHandler
 {
+    #region Private Fields
     private static bool deathLinkEnabled;
     private string slotName;
     private readonly DeathLinkService service;
     private readonly Queue<DeathLink> deathLinks = new();
+    #endregion
 
     /// <summary>
     /// instantiates our death link handler, sets up the hook for receiving death links, and enables death link if needed

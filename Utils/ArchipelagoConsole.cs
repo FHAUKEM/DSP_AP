@@ -9,24 +9,29 @@ namespace DSP_AP.Utils;
 // shamelessly stolen from oc2-modding https://github.com/toasterparty/oc2-modding/blob/main/OC2Modding/GameLog.cs
 public static class ArchipelagoConsole
 {
+    #region UI State
     public static bool Hidden = true;
+    private static string scrollText = "";
+    private static string CommandText = "!help";
+    #endregion
 
+    #region Private UI Fields
     private static List<string> logLines = new();
     private static Vector2 scrollView;
     private static Rect window;
     private static Rect scroll;
     private static Rect text;
     private static Rect hideShowButton;
-
-    private static GUIStyle textStyle = new();
-    private static string scrollText = "";
-    private static float lastUpdateTime = Time.time;
-    private const int MaxLogLines = 80;
-    private const float HideTimeout = 15f;
-
-    private static string CommandText = "!help";
     private static Rect CommandTextRect;
     private static Rect SendCommandButton;
+    #endregion
+
+    #region Constants
+    private static GUIStyle textStyle = new();
+    private const int MaxLogLines = 80;
+    private const float HideTimeout = 15f;
+    private static float lastUpdateTime = Time.time;
+    #endregion
 
     public static void Awake()
     {

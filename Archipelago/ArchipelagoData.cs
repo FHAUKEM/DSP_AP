@@ -10,6 +10,7 @@ namespace DSP_AP.Archipelago;
 
 public class ArchipelagoData
 {
+    #region Public Fields
     public string Uri;
     public string SlotName;
     public string Password;
@@ -19,16 +20,20 @@ public class ArchipelagoData
 
     public List<long> CheckedLocations;
     public List<long> ReceivedLocations = new();
+    #endregion
 
+    #region Private Fields
     /// <summary>
     /// seed for this archipelago data. Can be used when loading a file to verify the session the player is trying to
     /// load is valid to the room it's connecting to.
     /// </summary>
     private string seed;
-
     private Dictionary<string, object> slotData;
+    #endregion
 
+    #region Properties
     public bool NeedSlotData => slotData == null;
+    #endregion
 
     public ArchipelagoData()
     {

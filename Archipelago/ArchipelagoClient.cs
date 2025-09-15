@@ -13,15 +13,21 @@ namespace DSP_AP.Archipelago;
 
 public class ArchipelagoClient
 {
+    #region Constants
     public const string APVersion = "0.6.3";
     private const string Game = "Dyson Sphere Program";
+    #endregion
 
+    #region Static Fields
     public static bool Authenticated;
-    private bool attemptingConnection;
-
     public static ArchipelagoData ServerData = new();
+    #endregion
+
+    #region Instance Fields
+    private bool attemptingConnection;
     private DeathLinkHandler DeathLinkHandler;
     private ArchipelagoSession session;
+    #endregion
 
     /// <summary>
     /// call to connect to an Archipelago session. Connection info should already be set up on ServerData

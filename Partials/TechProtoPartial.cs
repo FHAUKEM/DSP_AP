@@ -7,6 +7,7 @@ namespace DSP_AP.Partials
     [Serializable]
     public class TechProtoPartial
     {
+        #region Public Fields
         public int ID;
         public string Name;
         [JsonIgnore]
@@ -23,6 +24,7 @@ namespace DSP_AP.Partials
         public int[] AddItemCounts;
         [JsonIgnore]
         public int maxLevel;
+        #endregion
 
         public TechProtoPartial(TechProto proto)
         {
