@@ -84,6 +84,15 @@ namespace DSP_AP
             {
                 APTechProto.DumpAPTechs();
             }
+
+            if (GUI.Button(new Rect(
+                    Screen.width - buttonWidth,
+                    buttonHeight * buttonIndex++ + buttonYStart,
+                    buttonWidth, buttonHeight),
+                    "Dump recipes"))
+            {
+                APTechProto.DumpRecipes();
+            }
         }
     }
 }
