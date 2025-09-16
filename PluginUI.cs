@@ -8,13 +8,6 @@ namespace DSP_AP
 {
     public static class PluginUI
     {
-        #region UI Constants
-        public static int buttonWidth = 100;
-        public static int buttonHeight = 20;
-        public static int buttonYStart = 50;
-        public static int buttonIndex = 0;
-        #endregion
-
         public static void DrawModLabel()
         {
             GUI.Label(new Rect(16, 16, 300, 20), Plugin.ModDisplayInfo);
@@ -69,6 +62,11 @@ namespace DSP_AP
         public static void DrawDebugButtons()
         {
             if (ArchipelagoConsole.Hidden) return;
+
+            int buttonWidth = 100;
+            int buttonHeight = 20;
+            int buttonYStart = 50;
+            int buttonIndex = 0;
 
             if (GUI.Button(new Rect(
                     Screen.width - buttonWidth,
