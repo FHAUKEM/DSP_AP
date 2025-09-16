@@ -6,6 +6,7 @@ using Archipelago.MultiClient.Net.Packets;
 using DSP_AP.GameLogic;
 using DSP_AP.Utils;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -103,7 +104,7 @@ public class ArchipelagoClient
             Authenticated = true;
 
             DeathLinkHandler = new(session.CreateDeathLinkService(), ServerData.SlotName);
-            session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+            CheckLocationsAsync();
             outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
             ArchipelagoConsole.LogMessage(outText);
@@ -145,9 +146,10 @@ public class ArchipelagoClient
     {
         if (Authenticated)
         {
-            session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
+            List<long> locations = TechUnlockService.GetUnlockedTechIds();
+            session.Locations.CompleteLocationChecksAsync(locations.ToArray());
             ArchipelagoConsole.LogMessage($"Sent location checks to server!");
-            GoalCheckerService.CheckForGoalCompletion(session, ServerData.CheckedLocations);
+            GoalCheckerService.CheckForGoalCompletion(session, locations);
         }
         else
         {
@@ -168,7 +170,6 @@ public class ArchipelagoClient
         Plugin.BepinLogger.LogDebug("Item received with id: " + receivedItem.ItemId);
 
         ServerData.Index++;
-        ServerData.ReceivedLocations.Add(receivedItem.ItemId);
 
         TechUnlockService.ApplyTechRewards(GameMain.history, receivedItem.ItemId);
     }
@@ -182,6 +183,9 @@ public class ArchipelagoClient
     {
         Plugin.BepinLogger.LogError(e);
         ArchipelagoConsole.LogMessage(message);
+        session = null;
+        Authenticated = false;
+        attemptingConnection = false;
     }
 
     /// <summary>
@@ -192,5 +196,6 @@ public class ArchipelagoClient
     {
         Plugin.BepinLogger.LogError($"Connection to Archipelago lost: {reason}");
         Disconnect();
+        attemptingConnection = false;
     }
 }

@@ -15,7 +15,7 @@ namespace DSP_AP
         #region Constants
         public const string PluginGUID = "FHAUKEM.DSP.DSP_AP";
         public const string PluginName = "DSP_AP";
-        public const string PluginVersion = "0.0.4";
+        public const string PluginVersion = "0.0.5";
         public const string ModDisplayInfo = $"{PluginName} v{PluginVersion}";
         private const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
         public const long GoalTechID = 1508;

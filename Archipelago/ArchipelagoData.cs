@@ -1,9 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using DSP_AP.GameLogic;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using DSP_AP.Utils;
 
 
 namespace DSP_AP.Archipelago;
@@ -15,11 +13,6 @@ public class ArchipelagoData
     public string SlotName;
     public string Password;
     public int Index;
-    public string filePath;
-    public string saveDirectory = "apsaves";
-
-    public List<long> CheckedLocations;
-    public List<long> ReceivedLocations = new();
     #endregion
 
     #region Private Fields
@@ -37,9 +30,8 @@ public class ArchipelagoData
 
     public ArchipelagoData()
     {
-            Uri = "localhost";
-            SlotName = "Player1";
-            CheckedLocations = new();
+        Uri = "localhost";
+        SlotName = "Player1";
     }
 
     public ArchipelagoData(string uri, string slotName, string password)
@@ -47,7 +39,6 @@ public class ArchipelagoData
         Uri = uri;
         SlotName = slotName;
         Password = password;
-        CheckedLocations = new();
     }
 
     /// <summary>
@@ -59,16 +50,6 @@ public class ArchipelagoData
     {
         slotData = roomSlotData;
         seed = roomSeed;
-
-        string fileName = $"{SlotName}.{seed}.json";
-
-        filePath = Path.Combine(Plugin.PluginPath, saveDirectory, fileName);
-        CheckedLocations = ArchipelagoDataStorage.LoadFromFile(filePath);
-    }
-
-    public void SaveCheckedLocations()
-    {
-        ArchipelagoDataStorage.SaveToFile(filePath, CheckedLocations);
     }
 
     /// <summary>

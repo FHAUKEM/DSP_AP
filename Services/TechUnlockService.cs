@@ -1,10 +1,28 @@
 ﻿using DSP_AP.Partials;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DSP_AP.GameLogic;
 
 public static class TechUnlockService
 {
+    public static List<long> GetUnlockedTechIds() {
+        var list = new List<long>();
+
+        foreach (KeyValuePair<int, TechState> techStateKVP in GameMain.history.techStates)
+        {
+            int techId = techStateKVP.Key;
+            TechState techState = techStateKVP.Value;
+            bool unlocked = techState.unlocked;
+
+            if (unlocked)
+            {
+                list.Add(techId);
+            }
+        }
+        return list;
+    }
+
     public static void ApplyTechRewards(GameHistoryData history, long ItemId)
     {
         Plugin.BepinLogger.LogDebug($"Unlocking rewards for research id: {ItemId}");
