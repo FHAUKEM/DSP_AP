@@ -30,7 +30,7 @@ public static class TechUnlockService
         int techId = (int)ItemId;
         TechProtoPartial techProto = Plugin.APTechProtos.FirstOrDefault(t => t.ID == techId);
 
-        if (techProto != null)
+        if (techProto == null)
         {
             Plugin.BepinLogger.LogInfo($"Partial copy of TechProto not found for id {techId}");
             return;
